@@ -1,0 +1,32 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.container {
+  width: 140px;
+  height: 90px;
+  position: absolute;
+  /* transform: translate(-50%, -50%);*/
+  right: 25%;
+  bottom: 0px;
+  background: url(sit.png);
+  /*Steps should be equal to number of frames*/
+  animation: kick 0.7s steps(6) infinite;
+}
+@keyframes kick {
+  0% {
+    background-position: 0 0;
+  }
+  /* Use height of image here as y position */
+  100% {
+    background-position: 0 -540px;
+  }
+}
