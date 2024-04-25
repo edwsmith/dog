@@ -114,7 +114,7 @@
 		clearTimeout(interval);
 		
 		function frame() {
-			if (pos - x < 30 && x - pos < 130) {
+			if (pos - x < 5 && x - pos < 135) {
 				clearInterval(id);
 				document.getElementById('a').style.backgroundImage = "url('stand.png')";
 				doSomething();
