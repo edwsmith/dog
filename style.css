@@ -4,6 +4,16 @@ html, body {
   min-height: 100%;
 }
 
+@font-face {
+   font-family: bit;
+   src: url("PoppkornRegular-MzKY.ttf");
+}
+
+h1 {
+  font-family: bit;
+  font-size: 60px;
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -15,11 +25,18 @@ body {
   height: 90px;
   position: absolute;
   /* transform: translate(-50%, -50%);*/
-  right: 10%;
-  bottom: 0px;
-  background: url(sit.png);
+  right: 25%;
+  bottom: 0px; 
   /*Steps should be equal to number of frames*/
-  animation: kick 0.7s steps(6) infinite;
+}
+.container.anim {
+  background: url(sit.png);
+  animation: kick 0.5s steps(6) infinite;
+}
+.container.noanim {
+  animation: kick 0.5s steps(6) none;
+  background: url(rest.png);
+  repeat-background: no-repeat;
 }
 @keyframes kick {
   0% {
