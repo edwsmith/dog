@@ -1,84 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" onmousemove="getCursor(event)">
+<html lang="en" onmousemove="getCursor(event)" onkeydown="doSomething()">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sprite Sheet Animation</title>
+	<link rel="icon" type="image/x-icon" href="icon.png">
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="style.css" />
     <link rel="prefetch" href="stand.png" />
     <link rel="prefetch" href="sleep.png" />
     <link rel="prefetch" href="lie.png" />
     <link rel="prefetch" href="walk.png" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!--h1 id="b">test</h1-->
+    <!--h1 id="b">bark</h1-->
+	<input type="text" name="name" id="name" style="absolute"/>
     <div id="a" class="container anim" onclick="switcher()"></div>
+	
+	<p>If you click on me, I will disappear.</p>
+<p>Click me away!</p>
+<p>Click me too!</p>
+	
+	
+	
   </body>
 </html>
 
+
 <script>
-let interval = null;
-let state = "sit";
-var rect = document.getElementById('a').getBoundingClientRect();
-console.log(rect.left, rect.right);
+	let interval = null;
+	let state = "sit";
+	let randTime = null;
 
-document.getElementById('a').style.animationDuration = "0.5s";
-let timeout = setTimeout(slower, 1000);
+	var rect = document.getElementById('a').getBoundingClientRect();
 
-document.getElementById('b').style.position = "absolute";
-document.getElementById('b').style.left = rect.left + "px";
-document.getElementById('b').style.top = rect.top - 120 + "px";
+	document.getElementById('a').style.animationDuration = "0.5s";
+	let timeout = setTimeout(doSomething, 100);
 
-window.addEventListener('resize', function(event) {
-    rect = document.getElementById('a').getBoundingClientRect();
-}, true);
+	document.getElementById('b').style.position = "absolute";
+	document.getElementById('b').style.left = rect.left + "px";
+	document.getElementById('b').style.top = rect.top - 120 + "px";
+
+	doSomething();
+
+	window.addEventListener('resize', function(event) {
+		rect = document.getElementById('a').getBoundingClientRect();
+	}, true);
 
     function switcher(){
-	document.getElementById('a').classList.add('anim');
-	document.getElementById('a').classList.remove('noanim');
-	document.getElementById('a').style.backgroundRepeat = "repeat";
-	if (state === "sit") {
-		clearTimeout(timeout);
-		document.getElementById('a').style.backgroundImage = "url('stand.png')";
-		document.getElementById('a').style.animationDuration = "0.4s";
-		state = "stand";
-		timeout = setTimeout(slower, 1000);
-	} else if (state === "stand") {
-		clearTimeout(timeout);
-        	document.getElementById('a').style.backgroundImage = "url('lie.png')";
-		document.getElementById('a').style.animationDuration = "0.6s";
-		state = "lie";	
-		timeout = setTimeout(slower, 1000);
-	} else if (state === "lie") {
-		clearTimeout(timeout);
-	        document.getElementById('a').style.backgroundImage = "url('sleep.png')";
-		state = "sleep";
-		document.getElementById('a').style.animationDuration = "2.8s";
-	} else if (state === "sleep") {
-		clearTimeout(timeout);
-		document.getElementById('a').style.backgroundImage = "url('sit.png')";
-		document.getElementById('a').style.animationDuration = "0.5s";	
-		state = "sit";
-		timeout = setTimeout(slower, 1000);
-	}
+		document.getElementById('a').classList.add('anim');
+		document.getElementById('a').classList.remove('noanim');
+		document.getElementById('a').style.backgroundRepeat = "repeat";
+		if (state === "sit") {
+			clearTimeout(timeout);
+			document.getElementById('a').style.backgroundImage = "url('stand.png')";
+			document.getElementById('a').style.animationDuration = "0.4s";
+			state = "stand";
+			//timeout = setTimeout(slower, 10000);
+		} else if (state === "stand") {
+			clearTimeout(timeout);
+			document.getElementById('a').style.backgroundImage = "url('lie.png')";
+			document.getElementById('a').style.animationDuration = "0.6s";
+			state = "lie";	
+			//timeout = setTimeout(slower, 10000);
+		} else if (state === "lie") {
+			clearTimeout(timeout);
+			document.getElementById('a').style.backgroundImage = "url('sleep.png')";
+			state = "sleep";
+			document.getElementById('a').style.animationDuration = "3.2s";
+		} else if (state === "sleep") {
+			clearTimeout(timeout);
+			document.getElementById('a').style.backgroundImage = "url('sit.png')";
+			document.getElementById('a').style.animationDuration = "0.5s";	
+			state = "sit";
+			//timeout = setTimeout(slower, 10000);
+		}
     }
 
     function getCursor(event) {
 		let x = event.clientX;
 		let y = event.clientY;
 		if (state != "sleep") {
-				if (x < document.getElementById('a').getBoundingClientRect().left + 20) {
-					document.getElementById('a').style.transform = "scaleX(-1)";
-				} else if (x > document.getElementById('a').getBoundingClientRect().right - 20) {
+			if (x < document.getElementById('a').getBoundingClientRect().left + 20) {
+				document.getElementById('a').style.transform = "scaleX(-1)";
+			} else if (x > document.getElementById('a').getBoundingClientRect().right - 20) {
 				document.getElementById('a').style.transform = "scaleX(1)";
-				} else if (y > rect.top) {
-			console.log("good boy");
-			document.getElementById('a').style.animationDuration = "0.5s";
+			} else if (y > rect.top) {
+				console.log("good boy");
+				document.getElementById('a').style.animationDuration = "0.5s";
+				document.getElementById('a').style.backgroundImage = "url('" + state + ".png')";
+				document.getElementById('a').classList.add('anim');
+				document.getElementById('a').classList.remove('noanim');
+				//timeout = setTimeout(slower, 10000);
 			}
 		}
 		
-		if (state === "stand") {
+		if (state === "stand" || document.getElementById('a').getBoundingClientRect().left > screen.width) {
 			if (x < document.getElementById('a').getBoundingClientRect().left - 200 || x > document.getElementById('a').getBoundingClientRect().right + 200) {
+				state = "stand";
 				document.getElementById('a').style.backgroundImage = "url('walk.png')";
 				document.getElementById('a').style.animationDuration = "0.6s";
 				walkies(x);
@@ -88,50 +107,115 @@ window.addEventListener('resize', function(event) {
 	
 	var id = null;
 	function walkies(x) {
-		console.log("x, " + x);
 		var elem = document.getElementById('a');
 		var pos;
 		pos = (Math.sign(x - pos) > 0) ? elem.getBoundingClientRect().right:elem.getBoundingClientRect().left;
 		document.getElementById('a').style.transform = "scaleX(" + Math.sign(x - pos) + ")";
 		clearInterval(id);
+		
+		document.getElementById('a').style.backgroundImage = "url('walk.png')";
+		document.getElementById('a').style.animationDuration = "0.6s";
+		
 		id = setInterval(frame, 5);
 		
+		clearTimeout(interval);
+		
 		function frame() {
-			if (pos - x < 50 && x - pos < 160) {
+			if (pos - x < 30 && x - pos < 130) {
 				clearInterval(id);
 				document.getElementById('a').style.backgroundImage = "url('stand.png')";
+				doSomething();
 			} else {
-			  pos += Math.sign(x - pos) * 5;
-  			  elem.style.left = pos + 'px';
+				pos += Math.sign(x - pos) * 5;
+				console.log("mathsign, " + Math.sign(x - pos) * 5);
+				elem.style.left = pos + 'px';
 			}
 	  }
 	}
 	
 	function slower()
 	{
-		/*let x = document.getElementById('a').style.animationDuration;
-		x = x.replace("s","")
-		console.log(x + " " + state);
-		let dur = parseFloat(x) * 1.5;
-		console.log(dur);
-		document.getElementById('a').style.animationDuration = dur.toString() + "s";
-		console.log("halved" + " " + dur);
-		if (dur < 3) {
-			setTimeout(slower, 1000);
-		} else {
-			clearTimeout(timeout);
-			document.getElementById('a').classList.remove('anim');
-			document.getElementById('a').classList.add('noanim');
-			document.getElementById('a').style.backgroundImage = "url('rest.png')";
-			
-			if (state === "lie") {
-				document.getElementById('a').style.backgroundPosition = "0 -180px";
-			} else if (state === "sit") {
-				document.getElementById('a').style.backgroundPosition = "0 0px";
-			} else if (state === "stand") {
-				document.getElementById('a').style.backgroundPosition = "0 -90px";
-			}
-		}
-		*/
+		/*clearTimeout(timeout);
+		document.getElementById('a').classList.remove('anim');
+		document.getElementById('a').classList.add('noanim');
+		document.getElementById('a').style.backgroundImage = "url('rest.png')";
+		
+		if (state === "lie") {
+			document.getElementById('a').style.backgroundPosition = "0 -180px";
+		} else if (state === "sit") {
+			document.getElementById('a').style.backgroundPosition = "0 0px";
+		} else if (state === "stand") {
+			document.getElementById('a').style.backgroundPosition = "0 -90px";
+		}*/
 	}
+	
+	function jump()
+	{
+		if (state === "stand") {
+			//document.getElementById('a').classList.add('anim');
+			//document.getElementById('a').classList.remove('noanim');
+			walkies(1200);
+		}
+	}
+	
+	function doSomething()
+	{
+		clearTimeout(interval);
+		randTime = getRandom(1000,50000);
+		interval = setTimeout(thing,randTime);
+		
+		console.log("do something, state=" + state + ", randTime=" + randTime);
+		function thing() {
+			var thingtodo = Math.floor(getRandom(1,4));
+			console.log("thing, state=" + state + ", thingtodo=" + thingtodo);
+			if (state === "stand") {
+				if (thingtodo === 1) { // walk
+					var pos = getRandom(50,screen.width);
+					console.log("walk, state=" + state + ", randTime=" + randTime);
+					walkies(pos);
+				} else if (thingtodo === 2) { // sit
+					state = "sleep";
+					switcher();
+				} else { // lie
+					switcher();
+				}
+			} else if (state === "sit") {
+				if (thingtodo === 1) { // stand
+					switcher();
+				} else if (thingtodo === 2) { // lie
+					state = "stand";
+					switcher();
+				} else { // walk
+					var pos = getRandom(50,screen.width);
+					console.log("walk, state=" + state + ", randTime=" + randTime);
+					walkies(pos);
+				}
+			} else if (state === "lie") {
+				if (thingtodo === 1) { // stand
+					state = "sit";
+					switcher();
+				} else if (thingtodo === 2) { // sit
+					state = "sleep";
+					switcher();
+				} else { // sleep
+					switcher();
+				}
+			} else if (state === "sleep") {
+				if (thingtodo === 1) { // stand
+					state = "sit";
+					switcher();
+				} else if (thingtodo === 2) { // sit
+					switcher();
+				} else { // lie
+					state = "stand";
+					switcher();
+				}
+			}
+			doSomething();
+		}
+	}
+	
+	function getRandom(min, max) {
+		return Math.random() * (max - min) + min;
+	}	
 </script>
