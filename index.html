@@ -67,9 +67,9 @@ window.addEventListener('resize', function(event) {
 		let x = event.clientX;
 		let y = event.clientY;
 		if (state != "sleep") {
-				if (x < rect.left + 20) {
+				if (x < document.getElementById('a').getBoundingClientRect().left + 20) {
 					document.getElementById('a').style.transform = "scaleX(-1)";
-				} else if (x > rect.right - 20) {
+				} else if (x > document.getElementById('a').getBoundingClientRect().right - 20) {
 				document.getElementById('a').style.transform = "scaleX(1)";
 				} else if (y > rect.top) {
 			console.log("good boy");
